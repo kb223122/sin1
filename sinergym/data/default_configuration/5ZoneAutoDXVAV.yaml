@@ -114,31 +114,13 @@ variables:
   Fan Air Mass Flow Rate:
     variable_names: fan_air_mass_flow_rate
     keys: Supply Fan 1
-  Fan Rise in Air Temperature:
-    variable_names: fan_rise_air_temp
-    keys: Supply Fan 1
-  Fan Heat Gain to Air:
-    variable_names: fan_heat_gain
-    keys: Supply Fan 1
 
   # Main Cooling Coil
   Cooling Coil Total Cooling Rate:
     variable_names: cooling_coil_total_rate
     keys: Main Cooling Coil 1
-  Cooling Coil Sensible Cooling Rate:
-    variable_names: cooling_coil_sensible_rate
-    keys: Main Cooling Coil 1
-  Cooling Coil Latent Cooling Rate:
-    variable_names: cooling_coil_latent_rate
-    keys: Main Cooling Coil 1
   Cooling Coil Electricity Rate:
     variable_names: cooling_coil_electricity_rate
-    keys: Main Cooling Coil 1
-  Cooling Coil Runtime Fraction:
-    variable_names: cooling_coil_runtime_fraction
-    keys: Main Cooling Coil 1
-  Cooling Coil Basin Heater Electricity Rate:
-    variable_names: cooling_coil_basin_heater_rate
     keys: Main Cooling Coil 1
 
   # Main Heating Coil
@@ -149,113 +131,19 @@ variables:
     variable_names: heating_coil_electricity_rate
     keys: Main heating Coil 1
 
-  # VAV Terminal Status (Zone 1)
-  Zone Air Terminal VAV Damper Position:
-    variable_names: vav_damper_position_1
-    keys: SPACE1-1 VAV Reheat
-  Zone Air Terminal Sensible Heating Rate:
-    variable_names: vav_heating_rate_1
-    keys: SPACE1-1 VAV Reheat
-  Zone Air Terminal Sensible Cooling Rate:
-    variable_names: vav_cooling_rate_1
-    keys: SPACE1-1 VAV Reheat
-
-  # VAV Terminal Status (Zone 2)
-  Zone Air Terminal VAV Damper Position 2:
-    variable_names: vav_damper_position_2
-    keys: SPACE2-1 VAV Reheat
-  Zone Air Terminal Sensible Heating Rate 2:
-    variable_names: vav_heating_rate_2
-    keys: SPACE2-1 VAV Reheat
-  Zone Air Terminal Sensible Cooling Rate 2:
-    variable_names: vav_cooling_rate_2
-    keys: SPACE2-1 VAV Reheat
-
-  # VAV Terminal Status (Zone 3)
-  Zone Air Terminal VAV Damper Position 3:
-    variable_names: vav_damper_position_3
-    keys: SPACE3-1 VAV Reheat
-  Zone Air Terminal Sensible Heating Rate 3:
-    variable_names: vav_heating_rate_3
-    keys: SPACE3-1 VAV Reheat
-  Zone Air Terminal Sensible Cooling Rate 3:
-    variable_names: vav_cooling_rate_3
-    keys: SPACE3-1 VAV Reheat
-
-  # VAV Terminal Status (Zone 4)
-  Zone Air Terminal VAV Damper Position 4:
-    variable_names: vav_damper_position_4
-    keys: SPACE4-1 VAV Reheat
-  Zone Air Terminal Sensible Heating Rate 4:
-    variable_names: vav_heating_rate_4
-    keys: SPACE4-1 VAV Reheat
-  Zone Air Terminal Sensible Cooling Rate 4:
-    variable_names: vav_cooling_rate_4
-    keys: SPACE4-1 VAV Reheat
-
-  # VAV Terminal Status (Zone 5)
-  Zone Air Terminal VAV Damper Position 5:
-    variable_names: vav_damper_position_5
-    keys: SPACE5-1 VAV Reheat
-  Zone Air Terminal Sensible Heating Rate 5:
-    variable_names: vav_heating_rate_5
-    keys: SPACE5-1 VAV Reheat
-  Zone Air Terminal Sensible Cooling Rate 5:
-    variable_names: vav_cooling_rate_5
-    keys: SPACE5-1 VAV Reheat
-
   # Air System Status
-  Air System Outdoor Air Economizer Status:
-    variable_names: outdoor_air_economizer_status
-    keys: VAV Sys 1
   Air System Outdoor Air Flow Fraction:
     variable_names: outdoor_air_flow_fraction
     keys: VAV Sys 1
-  Air System Outdoor Air Mass Flow Rate:
-    variable_names: outdoor_air_mass_flow_rate
-    keys: VAV Sys 1
-  Air System Mixed Air Mass Flow Rate:
-    variable_names: mixed_air_mass_flow_rate
-    keys: VAV Sys 1
-
-  # System Node Temperatures
-  System Node Temperature:
-    variable_names: supply_air_temp
-    keys: VAV Sys 1 Outlet Node
-  System Node Mass Flow Rate:
-    variable_names: supply_air_mass_flow_rate
-    keys: VAV Sys 1 Outlet Node
-  System Node Temperature Mixed:
-    variable_names: mixed_air_temp
-    keys: Mixed Air Node 1
-  System Node Temperature Cooling:
-    variable_names: cooling_coil_outlet_temp
-    keys: Main Cooling Coil 1 Outlet Node
-  System Node Temperature Heating:
-    variable_names: heating_coil_outlet_temp
-    keys: Main Heating Coil 1 Outlet Node
 
 # ------------------------------- OUTPUT:METERS ------------------------------ #
 meters:
   Electricity:HVAC: total_electricity_HVAC
   Fan Electricity Energy: fan_electricity_energy
   Cooling Coil Total Cooling Energy: cooling_coil_total_energy
-  Cooling Coil Sensible Cooling Energy: cooling_coil_sensible_energy
-  Cooling Coil Latent Cooling Energy: cooling_coil_latent_energy
   Cooling Coil Electricity Energy: cooling_coil_electricity_energy
-  Cooling Coil Basin Heater Electricity Energy: cooling_coil_basin_heater_energy
   Heating Coil Heating Energy: heating_coil_heating_energy
   Heating Coil Electricity Energy: heating_coil_electricity_energy
-  Zone Air Terminal Sensible Heating Energy: vav_heating_energy_1
-  Zone Air Terminal Sensible Cooling Energy: vav_cooling_energy_1
-  Zone Air Terminal Sensible Heating Energy 2: vav_heating_energy_2
-  Zone Air Terminal Sensible Cooling Energy 2: vav_cooling_energy_2
-  Zone Air Terminal Sensible Heating Energy 3: vav_heating_energy_3
-  Zone Air Terminal Sensible Cooling Energy 3: vav_cooling_energy_3
-  Zone Air Terminal Sensible Heating Energy 4: vav_heating_energy_4
-  Zone Air Terminal Sensible Cooling Energy 4: vav_cooling_energy_4
-  Zone Air Terminal Sensible Heating Energy 5: vav_heating_energy_5
-  Zone Air Terminal Sensible Cooling Energy 5: vav_cooling_energy_5
 
 # ---------------------------------------------------------------------------- #
 #                               ACTION VARIABLES                               #
