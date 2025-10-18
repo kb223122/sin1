@@ -139,11 +139,9 @@ variables:
 # ------------------------------- OUTPUT:METERS ------------------------------ #
 meters:
   Electricity:HVAC: total_electricity_HVAC
-  Fan Electricity Energy: fan_electricity_energy
-  Cooling Coil Total Cooling Energy: cooling_coil_total_energy
-  Cooling Coil Electricity Energy: cooling_coil_electricity_energy
-  Heating Coil Heating Energy: heating_coil_heating_energy
-  Heating Coil Electricity Energy: heating_coil_electricity_energy
+  Electricity:Fans: fan_electricity_energy
+  Electricity:Cooling: cooling_electricity_energy
+  Electricity:Heating: heating_electricity_energy
 
 # ---------------------------------------------------------------------------- #
 #                               ACTION VARIABLES                               #

@@ -4000,45 +4000,15 @@
             "reporting_frequency": "TimeStep",
             "variable_name": "Fan Air Mass Flow Rate"
         },
-        "Fan Rise in Air Temperature": {
-            "key_value": "Supply Fan 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Fan Rise in Air Temperature"
-        },
-        "Fan Heat Gain to Air": {
-            "key_value": "Supply Fan 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Fan Heat Gain to Air"
-        },
         "Cooling Coil Total Cooling Rate": {
             "key_value": "Main Cooling Coil 1",
             "reporting_frequency": "TimeStep",
             "variable_name": "Cooling Coil Total Cooling Rate"
         },
-        "Cooling Coil Sensible Cooling Rate": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Sensible Cooling Rate"
-        },
-        "Cooling Coil Latent Cooling Rate": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Latent Cooling Rate"
-        },
         "Cooling Coil Electricity Rate": {
             "key_value": "Main Cooling Coil 1",
             "reporting_frequency": "TimeStep",
             "variable_name": "Cooling Coil Electricity Rate"
-        },
-        "Cooling Coil Runtime Fraction": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Runtime Fraction"
-        },
-        "Cooling Coil Basin Heater Electricity Rate": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Basin Heater Electricity Rate"
         },
         "Heating Coil Heating Rate": {
             "key_value": "Main heating Coil 1",
@@ -4050,222 +4020,24 @@
             "reporting_frequency": "TimeStep",
             "variable_name": "Heating Coil Electricity Rate"
         },
-        "Zone Air Terminal VAV Damper Position": {
-            "key_value": "SPACE1-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal VAV Damper Position"
-        },
-        "Zone Air Terminal Sensible Heating Rate": {
-            "key_value": "SPACE1-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Rate"
-        },
-        "Zone Air Terminal Sensible Cooling Rate": {
-            "key_value": "SPACE1-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Rate"
-        },
-        "Zone Air Terminal VAV Damper Position 2": {
-            "key_value": "SPACE2-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal VAV Damper Position"
-        },
-        "Zone Air Terminal Sensible Heating Rate 2": {
-            "key_value": "SPACE2-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Rate"
-        },
-        "Zone Air Terminal Sensible Cooling Rate 2": {
-            "key_value": "SPACE2-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Rate"
-        },
-        "Zone Air Terminal VAV Damper Position 3": {
-            "key_value": "SPACE3-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal VAV Damper Position"
-        },
-        "Zone Air Terminal Sensible Heating Rate 3": {
-            "key_value": "SPACE3-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Rate"
-        },
-        "Zone Air Terminal Sensible Cooling Rate 3": {
-            "key_value": "SPACE3-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Rate"
-        },
-        "Zone Air Terminal VAV Damper Position 4": {
-            "key_value": "SPACE4-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal VAV Damper Position"
-        },
-        "Zone Air Terminal Sensible Heating Rate 4": {
-            "key_value": "SPACE4-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Rate"
-        },
-        "Zone Air Terminal Sensible Cooling Rate 4": {
-            "key_value": "SPACE4-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Rate"
-        },
-        "Zone Air Terminal VAV Damper Position 5": {
-            "key_value": "SPACE5-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal VAV Damper Position"
-        },
-        "Zone Air Terminal Sensible Heating Rate 5": {
-            "key_value": "SPACE5-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Rate"
-        },
-        "Zone Air Terminal Sensible Cooling Rate 5": {
-            "key_value": "SPACE5-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Rate"
-        },
-        "Air System Outdoor Air Economizer Status": {
-            "key_value": "VAV Sys 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Air System Outdoor Air Economizer Status"
-        },
         "Air System Outdoor Air Flow Fraction": {
             "key_value": "VAV Sys 1",
             "reporting_frequency": "TimeStep",
             "variable_name": "Air System Outdoor Air Flow Fraction"
-        },
-        "Air System Outdoor Air Mass Flow Rate": {
-            "key_value": "VAV Sys 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Air System Outdoor Air Mass Flow Rate"
-        },
-        "Air System Mixed Air Mass Flow Rate": {
-            "key_value": "VAV Sys 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Air System Mixed Air Mass Flow Rate"
-        },
-        "System Node Temperature": {
-            "key_value": "VAV Sys 1 Outlet Node",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "System Node Temperature"
-        },
-        "System Node Mass Flow Rate": {
-            "key_value": "VAV Sys 1 Outlet Node",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "System Node Mass Flow Rate"
-        },
-        "System Node Temperature Mixed": {
-            "key_value": "Mixed Air Node 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "System Node Temperature"
-        },
-        "System Node Mass Flow Rate Mixed": {
-            "key_value": "Mixed Air Node 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "System Node Mass Flow Rate"
-        },
-        "System Node Temperature Cooling": {
-            "key_value": "Main Cooling Coil 1 Outlet Node",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "System Node Temperature"
-        },
-        "System Node Temperature Heating": {
-            "key_value": "Main Heating Coil 1 Outlet Node",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "System Node Temperature"
         }
     },
     "Output:Meter": {
-        "Fan Electricity Energy": {
-            "key_value": "Supply Fan 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Fan Electricity Energy"
+        "Electricity:HVAC": {
+            "reporting_frequency": "TimeStep"
         },
-        "Cooling Coil Total Cooling Energy": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Total Cooling Energy"
+        "Electricity:Fans": {
+            "reporting_frequency": "TimeStep"
         },
-        "Cooling Coil Sensible Cooling Energy": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Sensible Cooling Energy"
+        "Electricity:Cooling": {
+            "reporting_frequency": "TimeStep"
         },
-        "Cooling Coil Latent Cooling Energy": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Latent Cooling Energy"
-        },
-        "Cooling Coil Electricity Energy": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Electricity Energy"
-        },
-        "Cooling Coil Basin Heater Electricity Energy": {
-            "key_value": "Main Cooling Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Cooling Coil Basin Heater Electricity Energy"
-        },
-        "Heating Coil Heating Energy": {
-            "key_value": "Main heating Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Heating Coil Heating Energy"
-        },
-        "Heating Coil Electricity Energy": {
-            "key_value": "Main heating Coil 1",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Heating Coil Electricity Energy"
-        },
-        "Zone Air Terminal Sensible Heating Energy": {
-            "key_value": "SPACE1-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Energy"
-        },
-        "Zone Air Terminal Sensible Cooling Energy": {
-            "key_value": "SPACE1-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Energy"
-        },
-        "Zone Air Terminal Sensible Heating Energy 2": {
-            "key_value": "SPACE2-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Energy"
-        },
-        "Zone Air Terminal Sensible Cooling Energy 2": {
-            "key_value": "SPACE2-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Energy"
-        },
-        "Zone Air Terminal Sensible Heating Energy 3": {
-            "key_value": "SPACE3-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Energy"
-        },
-        "Zone Air Terminal Sensible Cooling Energy 3": {
-            "key_value": "SPACE3-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Energy"
-        },
-        "Zone Air Terminal Sensible Heating Energy 4": {
-            "key_value": "SPACE4-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Energy"
-        },
-        "Zone Air Terminal Sensible Cooling Energy 4": {
-            "key_value": "SPACE4-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Energy"
-        },
-        "Zone Air Terminal Sensible Heating Energy 5": {
-            "key_value": "SPACE5-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Heating Energy"
-        },
-        "Zone Air Terminal Sensible Cooling Energy 5": {
-            "key_value": "SPACE5-1 VAV Reheat",
-            "reporting_frequency": "TimeStep",
-            "variable_name": "Zone Air Terminal Sensible Cooling Energy"
+        "Electricity:Heating": {
+            "reporting_frequency": "TimeStep"
         }
     }
 }
