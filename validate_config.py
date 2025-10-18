@@ -44,27 +44,12 @@ def validate_epjson():
             print("   ❌ Output:Variable section not found")
             return False
         
-        # Check Output:Meter section
+        # Check Output:Meter section (optional)
         if 'Output:Meter' in epjson_data:
             meters = epjson_data['Output:Meter']
             print(f"   ✅ Output:Meter section found with {len(meters)} meters")
-            
-            # Check for key meters
-            expected_meters = [
-                'Electricity:HVAC',
-                'Electricity:Fans',
-                'Electricity:Cooling',
-                'Electricity:Heating'
-            ]
-            
-            for meter in expected_meters:
-                if meter in meters:
-                    print(f"   ✅ {meter}: Found")
-                else:
-                    print(f"   ❌ {meter}: NOT FOUND")
         else:
-            print("   ❌ Output:Meter section not found")
-            return False
+            print("   ℹ️  Output:Meter section not found (using variables only)")
         
         return True
         
@@ -109,27 +94,12 @@ def validate_yaml():
             print("   ❌ Variables section not found")
             return False
         
-        # Check meters section
+        # Check meters section (optional)
         if 'meters' in yaml_data:
             meters = yaml_data['meters']
             print(f"   ✅ Meters section found with {len(meters)} meters")
-            
-            # Check for key meters
-            expected_meters = [
-                'Electricity:HVAC',
-                'Electricity:Fans',
-                'Electricity:Cooling',
-                'Electricity:Heating'
-            ]
-            
-            for meter in expected_meters:
-                if meter in meters:
-                    print(f"   ✅ {meter}: {meters[meter]}")
-                else:
-                    print(f"   ❌ {meter}: NOT FOUND")
         else:
-            print("   ❌ Meters section not found")
-            return False
+            print("   ℹ️  Meters section not found (using variables only)")
         
         return True
         
@@ -166,16 +136,19 @@ def check_configuration_alignment():
             else:
                 print(f"   ❌ {var_name}: Not found in YAML")
         
-        # Check meter alignment
+        # Check meter alignment (if meters exist)
         epjson_meters = epjson_data.get('Output:Meter', {})
         yaml_meters = yaml_data.get('meters', {})
         
-        print("   📊 Meter alignment:")
-        for meter_name in epjson_meters:
-            if meter_name in yaml_meters:
-                print(f"   ✅ {meter_name}: Found in both files")
-            else:
-                print(f"   ❌ {meter_name}: Not found in YAML")
+        if epjson_meters or yaml_meters:
+            print("   📊 Meter alignment:")
+            for meter_name in epjson_meters:
+                if meter_name in yaml_meters:
+                    print(f"   ✅ {meter_name}: Found in both files")
+                else:
+                    print(f"   ❌ {meter_name}: Not found in YAML")
+        else:
+            print("   ℹ️  No meters configured (variables only)")
         
         return True
         

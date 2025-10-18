@@ -137,11 +137,8 @@ variables:
     keys: VAV Sys 1
 
 # ------------------------------- OUTPUT:METERS ------------------------------ #
-meters:
-  Electricity:HVAC: total_electricity_HVAC
-  Electricity:Fans: fan_electricity_energy
-  Electricity:Cooling: cooling_electricity_energy
-  Electricity:Heating: heating_electricity_energy
+# meters:
+  # Electricity:HVAC: total_electricity_HVAC
 
 # ---------------------------------------------------------------------------- #
 #                               ACTION VARIABLES                               #

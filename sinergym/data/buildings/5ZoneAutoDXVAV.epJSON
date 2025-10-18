@@ -4025,19 +4025,5 @@
             "reporting_frequency": "TimeStep",
             "variable_name": "Air System Outdoor Air Flow Fraction"
         }
-    },
-    "Output:Meter": {
-        "Electricity:HVAC": {
-            "reporting_frequency": "TimeStep"
-        },
-        "Electricity:Fans": {
-            "reporting_frequency": "TimeStep"
-        },
-        "Electricity:Cooling": {
-            "reporting_frequency": "TimeStep"
-        },
-        "Electricity:Heating": {
-            "reporting_frequency": "TimeStep"
-        }
     }
 }
