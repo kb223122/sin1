@@ -8,7 +8,7 @@ import sinergym
 from sinergym import register_envs_from_yaml
 
 # Register the custom environment from YAML
-register_envs_from_yaml('/workspace/5zone_individual_corrected.yaml')
+register_envs_from_yaml('/workspace/5zone_individual_simple.yaml')
 
 # Now you can use the environment
 env = gym.make('Eplus-5zone_individual-hot-continuous-v1')

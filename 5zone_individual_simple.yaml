@@ -7,7 +7,7 @@ id_base: 5zone_individual
 # ---------------------------------------------------------------------------- #
 #                         BUILDING AND WEATHER SETTINGS                        #
 # ---------------------------------------------------------------------------- #
-building_file: 5ZoneAutoDXVAV_5zone_individual.epJSON
+building_file: 5ZoneAutoDXVAV_5zone_individual_fixed.epJSON
 
 # A environment alternative for each weather key
 weather_specification:
