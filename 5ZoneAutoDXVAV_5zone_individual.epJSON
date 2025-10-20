@@ -1,0 +1,2262 @@
+{
+    "AirLoopHVAC": {
+        "VAV Sys 1": {
+            "availability_manager_list_name": "VAV Sys 1 Avail List",
+            "branch_list_name": "VAV Sys 1 Branches",
+            "demand_side_inlet_node_names": "Zone Eq In Node",
+            "demand_side_outlet_node_name": "PLENUM-1 Out Node",
+            "design_supply_air_flow_rate": "Autosize",
+            "supply_side_inlet_node_name": "VAV Sys 1 Inlet Node",
+            "supply_side_outlet_node_names": "VAV Sys 1 Outlet Node"
+        }
+    },
+    "AirLoopHVAC:ControllerList": {
+        "OA Sys 1 Controllers": {
+            "controller_1_name": "OA Controller 1",
+            "controller_1_object_type": "Controller:OutdoorAir"
+        }
+    },
+    "AirLoopHVAC:OutdoorAirSystem": {
+        "OA Sys 1": {
+            "controller_list_name": "OA Sys 1 Controllers",
+            "outdoor_air_equipment_list_name": "OA Sys 1 Equipment"
+        }
+    },
+    "AirLoopHVAC:OutdoorAirSystem:EquipmentList": {
+        "OA Sys 1 Equipment": {
+            "component_1_name": "OA Mixing Box 1",
+            "component_1_object_type": "OutdoorAir:Mixer"
+        }
+    },
+    "AirLoopHVAC:ReturnPath": {
+        "ReturnAirPath1": {
+            "components": [
+                {
+                    "component_name": "Return-Plenum-1",
+                    "component_object_type": "AirLoopHVAC:ReturnPlenum"
+                }
+            ],
+            "return_air_path_outlet_node_name": "PLENUM-1 Out Node"
+        }
+    },
+    "AirLoopHVAC:ReturnPlenum": {
+        "Return-Plenum-1": {
+            "nodes": [
+                {
+                    "inlet_node_name": "SPACE1-1 Out Node"
+                },
+                {
+                    "inlet_node_name": "SPACE2-1 Out Node"
+                },
+                {
+                    "inlet_node_name": "SPACE3-1 Out Node"
+                },
+                {
+                    "inlet_node_name": "SPACE4-1 Out Node"
+                },
+                {
+                    "inlet_node_name": "SPACE5-1 Out Node"
+                }
+            ],
+            "outlet_node_name": "PLENUM-1 Out Node",
+            "zone_name": "PLENUM-1",
+            "zone_node_name": "PLENUM-1 Node"
+        }
+    },
+    "AirLoopHVAC:SupplyPath": {
+        "Zone Supply Air Path 1": {
+            "components": [
+                {
+                    "component_name": "Zone Supply Air Splitter 1",
+                    "component_object_type": "AirLoopHVAC:ZoneSplitter"
+                }
+            ],
+            "supply_air_path_inlet_node_name": "Zone Eq In Node"
+        }
+    },
+    "AirLoopHVAC:ZoneSplitter": {
+        "Zone Supply Air Splitter 1": {
+            "inlet_node_name": "Zone Eq In Node",
+            "nodes": [
+                {
+                    "outlet_node_name": "SPACE1-1 ATU In Node"
+                },
+                {
+                    "outlet_node_name": "SPACE2-1 ATU In Node"
+                },
+                {
+                    "outlet_node_name": "SPACE3-1 ATU In Node"
+                },
+                {
+                    "outlet_node_name": "SPACE4-1 ATU In Node"
+                },
+                {
+                    "outlet_node_name": "SPACE5-1 ATU In Node"
+                }
+            ]
+        }
+    },
+    "AirTerminal:SingleDuct:VAV:Reheat": {
+        "SPACE1-1 VAV Reheat": {
+            "air_inlet_node_name": "SPACE1-1 ATU In Node",
+            "air_outlet_node_name": "SPACE1-1 In Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "damper_heating_action": "Normal",
+            "maximum_air_flow_rate": "Autosize",
+            "minimum_air_flow_fraction_schedule_name": "MinOA_Sched",
+            "reheat_coil_name": "SPACE1-1 Reheat Coil",
+            "reheat_coil_object_type": "Coil:Heating:Electric",
+            "zone_name": "SPACE1-1"
+        },
+        "SPACE2-1 VAV Reheat": {
+            "air_inlet_node_name": "SPACE2-1 ATU In Node",
+            "air_outlet_node_name": "SPACE2-1 In Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "damper_heating_action": "Normal",
+            "maximum_air_flow_rate": "Autosize",
+            "minimum_air_flow_fraction_schedule_name": "MinOA_Sched",
+            "reheat_coil_name": "SPACE2-1 Reheat Coil",
+            "reheat_coil_object_type": "Coil:Heating:Electric",
+            "zone_name": "SPACE2-1"
+        },
+        "SPACE3-1 VAV Reheat": {
+            "air_inlet_node_name": "SPACE3-1 ATU In Node",
+            "air_outlet_node_name": "SPACE3-1 In Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "damper_heating_action": "Normal",
+            "maximum_air_flow_rate": "Autosize",
+            "minimum_air_flow_fraction_schedule_name": "MinOA_Sched",
+            "reheat_coil_name": "SPACE3-1 Reheat Coil",
+            "reheat_coil_object_type": "Coil:Heating:Electric",
+            "zone_name": "SPACE3-1"
+        },
+        "SPACE4-1 VAV Reheat": {
+            "air_inlet_node_name": "SPACE4-1 ATU In Node",
+            "air_outlet_node_name": "SPACE4-1 In Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "damper_heating_action": "Normal",
+            "maximum_air_flow_rate": "Autosize",
+            "minimum_air_flow_fraction_schedule_name": "MinOA_Sched",
+            "reheat_coil_name": "SPACE4-1 Reheat Coil",
+            "reheat_coil_object_type": "Coil:Heating:Electric",
+            "zone_name": "SPACE4-1"
+        },
+        "SPACE5-1 VAV Reheat": {
+            "air_inlet_node_name": "SPACE5-1 ATU In Node",
+            "air_outlet_node_name": "SPACE5-1 In Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "damper_heating_action": "Normal",
+            "maximum_air_flow_rate": "Autosize",
+            "minimum_air_flow_fraction_schedule_name": "MinOA_Sched",
+            "reheat_coil_name": "SPACE5-1 Reheat Coil",
+            "reheat_coil_object_type": "Coil:Heating:Electric",
+            "zone_name": "SPACE5-1"
+        }
+    },
+    "Building": {
+        "Building 1": {
+            "idf_max_extensible_fields": 0,
+            "idf_max_fields": 8,
+            "loads_convergence_tolerance_value": 0.04,
+            "maximum_number_of_warmup_days": 25,
+            "minimum_number_of_warmup_days": 6,
+            "north_axis": 0,
+            "solar_distribution": "MinimalShadowing",
+            "temperature_convergence_tolerance_value": 0.4
+        }
+    },
+    "BuildingSurface:Detailed": {
+        "Zn001:Flr001": {
+            "construction_name": "FLOOR",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Ground",
+            "outside_boundary_condition_object": "Zn001:Flr001",
+            "surface_type": "Floor",
+            "vertices": [
+                {
+                    "vertex_1_x_coordinate": 0,
+                    "vertex_1_y_coordinate": 0,
+                    "vertex_1_z_coordinate": 0,
+                    "vertex_2_x_coordinate": 15.24,
+                    "vertex_2_y_coordinate": 0,
+                    "vertex_2_z_coordinate": 0,
+                    "vertex_3_x_coordinate": 15.24,
+                    "vertex_3_y_coordinate": 15.24,
+                    "vertex_3_z_coordinate": 0,
+                    "vertex_4_x_coordinate": 0,
+                    "vertex_4_y_coordinate": 15.24,
+                    "vertex_4_z_coordinate": 0
+                }
+            ],
+            "zone_name": "SPACE1-1"
+        },
+        "Zn001:Roof001": {
+            "construction_name": "ROOF",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "surface_type": "Roof",
+            "vertices": [
+                {
+                    "vertex_1_x_coordinate": 0,
+                    "vertex_1_y_coordinate": 15.24,
+                    "vertex_1_z_coordinate": 3.048,
+                    "vertex_2_x_coordinate": 15.24,
+                    "vertex_2_y_coordinate": 15.24,
+                    "vertex_2_z_coordinate": 3.048,
+                    "vertex_3_x_coordinate": 15.24,
+                    "vertex_3_y_coordinate": 0,
+                    "vertex_3_z_coordinate": 3.048,
+                    "vertex_4_x_coordinate": 0,
+                    "vertex_4_y_coordinate": 0,
+                    "vertex_4_z_coordinate": 3.048
+                }
+            ],
+            "zone_name": "SPACE1-1"
+        },
+        "Zn001:Wall001": {
+            "construction_name": "EXTERIOR",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_1_x_coordinate": 0,
+                    "vertex_1_y_coordinate": 0,
+                    "vertex_1_z_coordinate": 0,
+                    "vertex_2_x_coordinate": 0,
+                    "vertex_2_y_coordinate": 0,
+                    "vertex_2_z_coordinate": 3.048,
+                    "vertex_3_x_coordinate": 0,
+                    "vertex_3_y_coordinate": 15.24,
+                    "vertex_3_z_coordinate": 3.048,
+                    "vertex_4_x_coordinate": 0,
+                    "vertex_4_y_coordinate": 15.24,
+                    "vertex_4_z_coordinate": 0
+                }
+            ],
+            "zone_name": "SPACE1-1"
+        },
+        "Zn001:Wall002": {
+            "construction_name": "EXTERIOR",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_1_x_coordinate": 0,
+                    "vertex_1_y_coordinate": 15.24,
+                    "vertex_1_z_coordinate": 0,
+                    "vertex_2_x_coordinate": 0,
+                    "vertex_2_y_coordinate": 15.24,
+                    "vertex_2_z_coordinate": 3.048,
+                    "vertex_3_x_coordinate": 15.24,
+                    "vertex_3_y_coordinate": 15.24,
+                    "vertex_3_z_coordinate": 3.048,
+                    "vertex_4_x_coordinate": 15.24,
+                    "vertex_4_y_coordinate": 15.24,
+                    "vertex_4_z_coordinate": 0
+                }
+            ],
+            "zone_name": "SPACE1-1"
+        },
+        "Zn001:Wall003": {
+            "construction_name": "EXTERIOR",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_1_x_coordinate": 15.24,
+                    "vertex_1_y_coordinate": 15.24,
+                    "vertex_1_z_coordinate": 0,
+                    "vertex_2_x_coordinate": 15.24,
+                    "vertex_2_y_coordinate": 15.24,
+                    "vertex_2_z_coordinate": 3.048,
+                    "vertex_3_x_coordinate": 15.24,
+                    "vertex_3_y_coordinate": 0,
+                    "vertex_3_z_coordinate": 3.048,
+                    "vertex_4_x_coordinate": 15.24,
+                    "vertex_4_y_coordinate": 0,
+                    "vertex_4_z_coordinate": 0
+                }
+            ],
+            "zone_name": "SPACE1-1"
+        },
+        "Zn001:Wall004": {
+            "construction_name": "EXTERIOR",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_1_x_coordinate": 15.24,
+                    "vertex_1_y_coordinate": 0,
+                    "vertex_1_z_coordinate": 0,
+                    "vertex_2_x_coordinate": 15.24,
+                    "vertex_2_y_coordinate": 0,
+                    "vertex_2_z_coordinate": 3.048,
+                    "vertex_3_x_coordinate": 0,
+                    "vertex_3_y_coordinate": 0,
+                    "vertex_3_z_coordinate": 3.048,
+                    "vertex_4_x_coordinate": 0,
+                    "vertex_4_y_coordinate": 0,
+                    "vertex_4_z_coordinate": 0
+                }
+            ],
+            "zone_name": "SPACE1-1"
+        }
+    },
+    "Coil:Cooling:DX:SingleSpeed": {
+        "Main Cooling Coil 1": {
+            "air_inlet_node_name": "Cooling Coil Air Inlet Node",
+            "air_outlet_node_name": "Cooling Coil Air Outlet Node",
+            "availability_schedule_name": "CoolingCoilAvailSched",
+            "condenser_air_inlet_node_name": "Condenser Inlet Node",
+            "cooling_coil_gross_rated_cop": 3.0,
+            "cooling_coil_gross_rated_sensible_heat_ratio": 0.75,
+            "cooling_coil_gross_rated_total_capacity": "Autosize",
+            "condenser_type": "AirCooled",
+            "crankcase_heater_capacity": 0.0,
+            "evaporative_condenser_effectiveness": 0.9,
+            "evaporative_condenser_pump_rated_power_consumption": 0.0,
+            "maximum_outdoor_air_flow_rate": 0.0,
+            "nominal_time_for_condensate_removal_to_begin": 0.0,
+            "ratio_of_initial_moisture_evaporation_rate_and_steady_state_latent_capacity": 0.0
+        }
+    },
+    "Coil:Heating:Electric": {
+        "Main Heating Coil 1": {
+            "air_inlet_node_name": "Heating Coil Air Inlet Node",
+            "air_outlet_node_name": "Heating Coil Air Outlet Node",
+            "availability_schedule_name": "HeatingCoilAvailSched",
+            "efficiency": 1.0,
+            "nominal_capacity": "Autosize"
+        },
+        "SPACE1-1 Reheat Coil": {
+            "air_inlet_node_name": "SPACE1-1 Reheat Coil Air Inlet Node",
+            "air_outlet_node_name": "SPACE1-1 Reheat Coil Air Outlet Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "efficiency": 1.0,
+            "nominal_capacity": "Autosize"
+        },
+        "SPACE2-1 Reheat Coil": {
+            "air_inlet_node_name": "SPACE2-1 Reheat Coil Air Inlet Node",
+            "air_outlet_node_name": "SPACE2-1 Reheat Coil Air Outlet Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "efficiency": 1.0,
+            "nominal_capacity": "Autosize"
+        },
+        "SPACE3-1 Reheat Coil": {
+            "air_inlet_node_name": "SPACE3-1 Reheat Coil Air Inlet Node",
+            "air_outlet_node_name": "SPACE3-1 Reheat Coil Air Outlet Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "efficiency": 1.0,
+            "nominal_capacity": "Autosize"
+        },
+        "SPACE4-1 Reheat Coil": {
+            "air_inlet_node_name": "SPACE4-1 Reheat Coil Air Inlet Node",
+            "air_outlet_node_name": "SPACE4-1 Reheat Coil Air Outlet Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "efficiency": 1.0,
+            "nominal_capacity": "Autosize"
+        },
+        "SPACE5-1 Reheat Coil": {
+            "air_inlet_node_name": "SPACE5-1 Reheat Coil Air Inlet Node",
+            "air_outlet_node_name": "SPACE5-1 Reheat Coil Air Outlet Node",
+            "availability_schedule_name": "ReheatCoilAvailSched",
+            "efficiency": 1.0,
+            "nominal_capacity": "Autosize"
+        }
+    },
+    "CoilSystem:Cooling:DX": {
+        "Cooling Coil System 1": {
+            "availability_schedule_name": "CoolingCoilAvailSched",
+            "cooling_coil_name": "Main Cooling Coil 1",
+            "cooling_coil_object_type": "Coil:Cooling:DX:SingleSpeed",
+            "outdoor_air_mixer_name": "OA Mixing Box 1"
+        }
+    },
+    "Controller:OutdoorAir": {
+        "OA Controller 1": {
+            "economizer_control_type": "FixedDryBulb",
+            "economizer_control_action_type": "ModulateFlow",
+            "economizer_maximum_limit_dry_bulb_temperature": 19.0,
+            "economizer_maximum_limit_enthalpy": 64000.0,
+            "economizer_maximum_limit_dewpoint_temperature": 19.0,
+            "economizer_minimum_limit_dry_bulb_temperature": 4.0,
+            "high_rh_control_option": "None",
+            "heat_recovery_bypass_control_type": "BypassWhenWithinEconomizerLimits",
+            "mechanical_ventilation_controller_name": "Zone Mechanical Ventilation Controller 1",
+            "minimum_outdoor_air_flow_rate": "MinOA_Sched",
+            "outdoor_air_flow_rate_per_person": 0.00944,
+            "outdoor_air_flow_rate_per_zone_floor_area": 0.0,
+            "outdoor_air_flow_rate_per_zone": 0.0
+        }
+    },
+    "Controller:MechanicalVentilation": {
+        "Zone Mechanical Ventilation Controller 1": {
+            "availability_schedule_name": "MinOA_Sched",
+            "demand_controlled_ventilation": "No",
+            "system_outdoor_air_method": "ZoneSum"
+        }
+    },
+    "Fan:VariableVolume": {
+        "Supply Fan 1": {
+            "air_inlet_node_name": "Fan Inlet Node",
+            "air_outlet_node_name": "Fan Outlet Node",
+            "availability_schedule_name": "FanAvailSched",
+            "fan_efficiency": 0.7,
+            "fan_power_minimum_flow_fraction": 0.0,
+            "fan_power_minimum_flow_rate_input_method": "Fraction",
+            "fan_power_coefficient_1": 0.35071223,
+            "fan_power_coefficient_2": 0.30850535,
+            "fan_power_coefficient_3": -0.54137364,
+            "fan_power_coefficient_4": 0.87198823,
+            "fan_power_coefficient_5": 0.0,
+            "maximum_flow_rate": "Autosize",
+            "motor_efficiency": 0.9,
+            "motor_in_airstream_fraction": 1.0,
+            "pressure_rise": 600.0
+        }
+    },
+    "OutdoorAir:Mixer": {
+        "OA Mixing Box 1": {
+            "mixed_air_node_name": "Mixed Air Node",
+            "outdoor_air_stream_node_name": "Outdoor Air Stream Node",
+            "relief_air_stream_node_name": "Relief Air Stream Node",
+            "return_air_stream_node_name": "Return Air Stream Node"
+        }
+    },
+    "Schedule:Compact": {
+        "ActSchd": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 117.239997864
+                }
+            ],
+            "schedule_type_limits_name": "Any Number"
+        },
+        "ActivitySch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 117.0
+                }
+            ],
+            "schedule_type_limits_name": "Any Number"
+        },
+        "AirVelocitySch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.137
+                }
+            ],
+            "schedule_type_limits_name": "Any Number"
+        },
+        "BasinHeaterSched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "On/Off"
+        },
+        "Clg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 40.0
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 40.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 40.0
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 40.0
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 32.2
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 40.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 40.0
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE1-1-Clg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE2-1-Clg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE3-1-Clg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE4-1-Clg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE5-1-Clg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 26.7
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 23.9
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 26.7
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "ClothingSch": {
+            "data": [
+                {
+                    "field": "Through: 4/1"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Through: 9/30"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "Fraction"
+        },
+        "CoolingCoilAvailSched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "On/Off"
+        },
+        "FanAvailSched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "On/Off"
+        },
+        "Htg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE1-1-Htg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE2-1-Htg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE3-1-Htg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE4-1-Htg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "SPACE5-1-Htg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WinterDesignDay"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "For: WeekDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: WeekEnds Holiday"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "For: AllOtherDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 12.8
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 21.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "HeatingCoilAvailSched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "On/Off"
+        },
+        "LightsSch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 6:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 8:00"
+                },
+                {
+                    "field": 0.3
+                },
+                {
+                    "field": "Until: 9:00"
+                },
+                {
+                    "field": 0.9
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 0.95
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.7
+                },
+                {
+                    "field": "Until: 19:00"
+                },
+                {
+                    "field": 0.8
+                },
+                {
+                    "field": "Until: 20:00"
+                },
+                {
+                    "field": 0.3
+                },
+                {
+                    "field": "Until: 22:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.05
+                }
+            ],
+            "schedule_type_limits_name": "Fraction"
+        },
+        "MinOA_Sched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.3
+                }
+            ],
+            "schedule_type_limits_name": "Fraction"
+        },
+        "OccupancySch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 6:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 8:00"
+                },
+                {
+                    "field": 0.95
+                },
+                {
+                    "field": "Until: 12:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.95
+                },
+                {
+                    "field": "Until: 19:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 20:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "Fraction"
+        },
+        "PlenumClg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 40.0
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "PlenumHtg-SetP-Sch": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.8
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "ReheatCoilAvailSched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "On/Off"
+        },
+        "Supply Air Temp Manager 1": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 12.0
+                }
+            ],
+            "schedule_type_limits_name": "Temperature"
+        },
+        "Zone Control Type Sched": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 3
+                }
+            ],
+            "schedule_type_limits_name": "Control Type"
+        }
+    },
+    "ScheduleTypeLimits": {
+        "Any Number": {
+            "lower_limit_value": 0,
+            "numeric_type": "Continuous",
+            "upper_limit_value": 0
+        },
+        "Control Type": {
+            "lower_limit_value": 0,
+            "numeric_type": "Discrete",
+            "upper_limit_value": 4
+        },
+        "Fraction": {
+            "lower_limit_value": 0,
+            "numeric_type": "Continuous",
+            "upper_limit_value": 1
+        },
+        "On/Off": {
+            "lower_limit_value": 0,
+            "numeric_type": "Discrete",
+            "upper_limit_value": 1
+        },
+        "Temperature": {
+            "lower_limit_value": -60,
+            "numeric_type": "Continuous",
+            "upper_limit_value": 200
+        }
+    },
+    "SetpointManager:MixedAir": {
+        "Supply Air Temp Manager 1": {
+            "control_variable": "Temperature",
+            "fan_inlet_node_name": "Fan Inlet Node",
+            "fan_outlet_node_name": "Fan Outlet Node",
+            "reference_node_name": "Mixed Air Node",
+            "setpoint_node_name": "VAV Sys 1 Outlet Node",
+            "setpoint_schedule_name": "Supply Air Temp Manager 1"
+        }
+    },
+    "SetpointManager:Warmest": {
+        "Warmest Setpoint Manager 1": {
+            "control_variable": "Temperature",
+            "maximum_setpoint_temperature": 18.0,
+            "minimum_setpoint_temperature": 12.0,
+            "setpoint_node_name": "VAV Sys 1 Outlet Node",
+            "strategy": "MaximumTemperature"
+        }
+    },
+    "ThermostatSetpoint:DualSetpoint": {
+        "DualSetPoint": {
+            "cooling_setpoint_temperature_schedule_name": "Clg-SetP-Sch",
+            "heating_setpoint_temperature_schedule_name": "Htg-SetP-Sch"
+        },
+        "SPACE1-1-DualSetPoint": {
+            "cooling_setpoint_temperature_schedule_name": "SPACE1-1-Clg-SetP-Sch",
+            "heating_setpoint_temperature_schedule_name": "SPACE1-1-Htg-SetP-Sch"
+        },
+        "SPACE2-1-DualSetPoint": {
+            "cooling_setpoint_temperature_schedule_name": "SPACE2-1-Clg-SetP-Sch",
+            "heating_setpoint_temperature_schedule_name": "SPACE2-1-Htg-SetP-Sch"
+        },
+        "SPACE3-1-DualSetPoint": {
+            "cooling_setpoint_temperature_schedule_name": "SPACE3-1-Clg-SetP-Sch",
+            "heating_setpoint_temperature_schedule_name": "SPACE3-1-Htg-SetP-Sch"
+        },
+        "SPACE4-1-DualSetPoint": {
+            "cooling_setpoint_temperature_schedule_name": "SPACE4-1-Clg-SetP-Sch",
+            "heating_setpoint_temperature_schedule_name": "SPACE4-1-Htg-SetP-Sch"
+        },
+        "SPACE5-1-DualSetPoint": {
+            "cooling_setpoint_temperature_schedule_name": "SPACE5-1-Clg-SetP-Sch",
+            "heating_setpoint_temperature_schedule_name": "SPACE5-1-Htg-SetP-Sch"
+        }
+    },
+    "ThermostatSetpoint:SingleCooling": {
+        "CoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "Clg-SetP-Sch"
+        },
+        "SPACE1-1-CoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE1-1-Clg-SetP-Sch"
+        },
+        "SPACE2-1-CoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE2-1-Clg-SetP-Sch"
+        },
+        "SPACE3-1-CoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE3-1-Clg-SetP-Sch"
+        },
+        "SPACE4-1-CoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE4-1-Clg-SetP-Sch"
+        },
+        "SPACE5-1-CoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE5-1-Clg-SetP-Sch"
+        },
+        "PlenumCoolingSetpoint": {
+            "setpoint_temperature_schedule_name": "PlenumClg-SetP-Sch"
+        }
+    },
+    "ThermostatSetpoint:SingleHeating": {
+        "HeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "Htg-SetP-Sch"
+        },
+        "SPACE1-1-HeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE1-1-Htg-SetP-Sch"
+        },
+        "SPACE2-1-HeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE2-1-Htg-SetP-Sch"
+        },
+        "SPACE3-1-HeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE3-1-Htg-SetP-Sch"
+        },
+        "SPACE4-1-HeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE4-1-Htg-SetP-Sch"
+        },
+        "SPACE5-1-HeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "SPACE5-1-Htg-SetP-Sch"
+        },
+        "PlenumHeatingSetpoint": {
+            "setpoint_temperature_schedule_name": "PlenumHtg-SetP-Sch"
+        }
+    },
+    "Timestep": {
+        "Timestep 1": {
+            "number_of_timesteps_per_hour": 4
+        }
+    },
+    "Version": {
+        "Version 1": {
+            "version_identifier": "24.1"
+        }
+    },
+    "Zone": {
+        "PLENUM-1": {
+            "ceiling_height": 0.609600067,
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": 283.2,
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "SPACE1-1": {
+            "ceiling_height": 2.438400269,
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": 239.247360229,
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "SPACE2-1": {
+            "ceiling_height": 2.438400269,
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": 103.311355591,
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "SPACE3-1": {
+            "ceiling_height": 2.438400269,
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": 239.247360229,
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "SPACE4-1": {
+            "ceiling_height": 2.438400269,
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": 103.311355591,
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "SPACE5-1": {
+            "ceiling_height": 2.438400269,
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": 447.682556152,
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        }
+    },
+    "ZoneControl:Thermostat": {
+        "SPACE1-1 Control": {
+            "control_1_name": "SPACE1-1-CoolingSetpoint",
+            "control_1_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_2_name": "SPACE1-1-HeatingSetpoint",
+            "control_2_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_3_name": "SPACE1-1-DualSetPoint",
+            "control_3_object_type": "ThermostatSetpoint:DualSetpoint",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "SPACE1-1"
+        },
+        "SPACE2-1 Control": {
+            "control_1_name": "SPACE2-1-CoolingSetpoint",
+            "control_1_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_2_name": "SPACE2-1-HeatingSetpoint",
+            "control_2_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_3_name": "SPACE2-1-DualSetPoint",
+            "control_3_object_type": "ThermostatSetpoint:DualSetpoint",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "SPACE2-1"
+        },
+        "SPACE3-1 Control": {
+            "control_1_name": "SPACE3-1-CoolingSetpoint",
+            "control_1_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_2_name": "SPACE3-1-HeatingSetpoint",
+            "control_2_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_3_name": "SPACE3-1-DualSetPoint",
+            "control_3_object_type": "ThermostatSetpoint:DualSetpoint",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "SPACE3-1"
+        },
+        "SPACE4-1 Control": {
+            "control_1_name": "SPACE4-1-CoolingSetpoint",
+            "control_1_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_2_name": "SPACE4-1-HeatingSetpoint",
+            "control_2_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_3_name": "SPACE4-1-DualSetPoint",
+            "control_3_object_type": "ThermostatSetpoint:DualSetpoint",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "SPACE4-1"
+        },
+        "SPACE5-1 Control": {
+            "control_1_name": "SPACE5-1-CoolingSetpoint",
+            "control_1_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_2_name": "SPACE5-1-HeatingSetpoint",
+            "control_2_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_3_name": "SPACE5-1-DualSetPoint",
+            "control_3_object_type": "ThermostatSetpoint:DualSetpoint",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "SPACE5-1"
+        }
+    },
+    "ZoneHVAC:AirDistributionUnit": {
+        "SPACE1-1 ATU": {
+            "air_distribution_unit_outlet_node_name": "SPACE1-1 In Node",
+            "air_terminal_name": "SPACE1-1 VAV Reheat",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:VAV:Reheat"
+        },
+        "SPACE2-1 ATU": {
+            "air_distribution_unit_outlet_node_name": "SPACE2-1 In Node",
+            "air_terminal_name": "SPACE2-1 VAV Reheat",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:VAV:Reheat"
+        },
+        "SPACE3-1 ATU": {
+            "air_distribution_unit_outlet_node_name": "SPACE3-1 In Node",
+            "air_terminal_name": "SPACE3-1 VAV Reheat",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:VAV:Reheat"
+        },
+        "SPACE4-1 ATU": {
+            "air_distribution_unit_outlet_node_name": "SPACE4-1 In Node",
+            "air_terminal_name": "SPACE4-1 VAV Reheat",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:VAV:Reheat"
+        },
+        "SPACE5-1 ATU": {
+            "air_distribution_unit_outlet_node_name": "SPACE5-1 In Node",
+            "air_terminal_name": "SPACE5-1 VAV Reheat",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:VAV:Reheat"
+        }
+    },
+    "ZoneHVAC:EquipmentConnections": {
+        "ZoneHVAC:EquipmentConnections 1": {
+            "air_loop_name": "VAV Sys 1",
+            "zone_air_exhaust_node_or_nodelist_name": "SPACE1-1 Out Node",
+            "zone_air_inlet_node_or_nodelist_name": "SPACE1-1 In Node",
+            "zone_air_node_name": "SPACE1-1 Node",
+            "zone_conditioning_equipment_list_name": "Zone Equipment List 1",
+            "zone_name": "SPACE1-1"
+        },
+        "ZoneHVAC:EquipmentConnections 2": {
+            "air_loop_name": "VAV Sys 1",
+            "zone_air_exhaust_node_or_nodelist_name": "SPACE2-1 Out Node",
+            "zone_air_inlet_node_or_nodelist_name": "SPACE2-1 In Node",
+            "zone_air_node_name": "SPACE2-1 Node",
+            "zone_conditioning_equipment_list_name": "Zone Equipment List 2",
+            "zone_name": "SPACE2-1"
+        },
+        "ZoneHVAC:EquipmentConnections 3": {
+            "air_loop_name": "VAV Sys 1",
+            "zone_air_exhaust_node_or_nodelist_name": "SPACE3-1 Out Node",
+            "zone_air_inlet_node_or_nodelist_name": "SPACE3-1 In Node",
+            "zone_air_node_name": "SPACE3-1 Node",
+            "zone_conditioning_equipment_list_name": "Zone Equipment List 3",
+            "zone_name": "SPACE3-1"
+        },
+        "ZoneHVAC:EquipmentConnections 4": {
+            "air_loop_name": "VAV Sys 1",
+            "zone_air_exhaust_node_or_nodelist_name": "SPACE4-1 Out Node",
+            "zone_air_inlet_node_or_nodelist_name": "SPACE4-1 In Node",
+            "zone_air_node_name": "SPACE4-1 Node",
+            "zone_conditioning_equipment_list_name": "Zone Equipment List 4",
+            "zone_name": "SPACE4-1"
+        },
+        "ZoneHVAC:EquipmentConnections 5": {
+            "air_loop_name": "VAV Sys 1",
+            "zone_air_exhaust_node_or_nodelist_name": "SPACE5-1 Out Node",
+            "zone_air_inlet_node_or_nodelist_name": "SPACE5-1 In Node",
+            "zone_air_node_name": "SPACE5-1 Node",
+            "zone_conditioning_equipment_list_name": "Zone Equipment List 5",
+            "zone_name": "SPACE5-1"
+        }
+    },
+    "ZoneHVAC:EquipmentList": {
+        "Zone Equipment List 1": {
+            "equipment": [
+                {
+                    "equipment_name": "SPACE1-1 ATU",
+                    "equipment_object_type": "ZoneHVAC:AirDistributionUnit",
+                    "equipment_sequence": 1
+                }
+            ]
+        },
+        "Zone Equipment List 2": {
+            "equipment": [
+                {
+                    "equipment_name": "SPACE2-1 ATU",
+                    "equipment_object_type": "ZoneHVAC:AirDistributionUnit",
+                    "equipment_sequence": 1
+                }
+            ]
+        },
+        "Zone Equipment List 3": {
+            "equipment": [
+                {
+                    "equipment_name": "SPACE3-1 ATU",
+                    "equipment_object_type": "ZoneHVAC:AirDistributionUnit",
+                    "equipment_sequence": 1
+                }
+            ]
+        },
+        "Zone Equipment List 4": {
+            "equipment": [
+                {
+                    "equipment_name": "SPACE4-1 ATU",
+                    "equipment_object_type": "ZoneHVAC:AirDistributionUnit",
+                    "equipment_sequence": 1
+                }
+            ]
+        },
+        "Zone Equipment List 5": {
+            "equipment": [
+                {
+                    "equipment_name": "SPACE5-1 ATU",
+                    "equipment_object_type": "ZoneHVAC:AirDistributionUnit",
+                    "equipment_sequence": 1
+                }
+            ]
+        }
+    }
+}
