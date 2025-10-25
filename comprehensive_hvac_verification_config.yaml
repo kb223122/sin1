@@ -1,0 +1,66 @@
+id_base: 5zone_comprehensive_hvac_verification
+building_file: 5ZoneAutoDXVAV.epJSON
+weather_specification:
+  weather_files:
+  - USA_AZ_Davis-Monthan.AFB.722745_TMY3.epw
+  keys:
+  - hot
+time_variables:
+- month
+- day_of_month
+- hour
+variables:
+  Site Outdoor Air Drybulb Temperature:
+    variable_names: outdoor_temperature
+    keys: ENVIRONMENT
+  Zone Air Temperature:
+    variable_names: air_temperature
+    keys: SPACE5-1
+  Zone Air Relative Humidity:
+    variable_names: air_humidity
+    keys: SPACE5-1
+  Zone Thermostat Heating Setpoint Temperature:
+    variable_names: htg_setpoint
+    keys: SPACE5-1
+  Zone Thermostat Cooling Setpoint Temperature:
+    variable_names: clg_setpoint
+    keys: SPACE5-1
+  Fan Electricity Rate:
+    variable_names: supply_fan_electricity_rate
+    keys: SUPPLY FAN 1
+  Heating Coil Electricity Rate:
+    variable_names: zone5_reheat_electricity_rate
+    keys: SPACE5-1 ZONE COIL
+  Cooling Coil Electricity Rate:
+    variable_names: main_cooling_coil_electricity_rate
+    keys: MAIN COOLING COIL 1
+  Facility Total HVAC Electricity Demand Rate:
+    variable_names: HVAC_electricity_demand_rate
+    keys: WHOLE BUILDING
+  Fan Air Mass Flow Rate:
+    variable_names: fan_air_mass_flow_rate
+    keys: SUPPLY FAN 1
+  Cooling Coil Total Cooling Rate:
+    variable_names: cooling_coil_total_cooling_rate
+    keys: MAIN COOLING COIL 1
+  Heating Coil Heating Rate:
+    variable_names: heating_coil_heating_rate
+    keys: MAIN HEATING COIL 1
+meters:
+  Electricity:HVAC: total_electricity_HVAC
+  Heating:Electricity: heating_electricity
+  Fans:Electricity: fans_electricity
+  Cooling:Electricity: cooling_electricity
+  Electricity:Facility: total_electricity_facility
+  Electricity:Building: total_electricity_building
+actuators:
+  HTG-SETP-SCH:
+    variable_name: Heating_Setpoint_RL
+    element_type: Schedule:Compact
+    value_type: Schedule Value
+  CLG-SETP-SCH:
+    variable_name: Cooling_Setpoint_RL
+    element_type: Schedule:Compact
+    value_type: Schedule Value
+action_space: gym.spaces.Box(low=np.array([12.0, 23.25], dtype=np.float32), high=np.array([23.25,
+  30.0], dtype=np.float32), shape=(2,), dtype=np.float32)
