@@ -18,7 +18,7 @@ except ImportError:
 
 import logging
 import os
-from typing import Union
+from typing import Optional, Union
 
 import gymnasium as gym
 import numpy as np
@@ -111,6 +111,9 @@ register(
 
 # ------------------- Read environment configuration files ------------------- #
 
+# Dictionary to track which YAML file each environment was registered from
+_env_yaml_mapping = {}
+
 
 def register_envs_from_yaml(yaml_path: str):
     """
@@ -118,6 +121,7 @@ def register_envs_from_yaml(yaml_path: str):
 
     :param yaml_path: Path to the YAML configuration file.
     """
+    print(f"[SINERGYM] Loading YAML configuration from: {yaml_path}")
     with open(yaml_path, 'r') as yaml_conf:
         conf = yaml.safe_load(yaml_conf)
 
@@ -136,6 +140,8 @@ def register_envs_from_yaml(yaml_path: str):
                 # disable_env_checker=True,
                 kwargs=env_kwargs,
             )
+            _env_yaml_mapping[env_id] = yaml_path
+            print(f"[SINERGYM]   -> Registered environment: {env_id}")
 
         # If discrete space is included, add the same environment with
         # discretization
@@ -164,14 +170,17 @@ def register_envs_from_yaml(yaml_path: str):
                 'continuous', 'discrete'
             )
 
+            discrete_env_id = env_id.replace('continuous', 'discrete')
             register(
-                id=env_id.replace('continuous', 'discrete'),
+                id=discrete_env_id,
                 entry_point='sinergym.envs:EplusEnv',
                 additional_wrappers=additional_wrappers,
                 # order_enforce=False,
                 # disable_env_checker=True,
                 kwargs=env_kwargs_discrete,
             )
+            _env_yaml_mapping[discrete_env_id] = yaml_path
+            print(f"[SINERGYM]   -> Registered environment: {discrete_env_id}")
 
 
 # ------------------ Read default configuration files ------------------ #
@@ -194,6 +203,39 @@ def ids():
         for env_id in gym.envs.registration.registry.keys()  # type: ignore
         if env_id.startswith('Eplus')
     ]
+
+
+# ------------ Get YAML configuration file for a specific environment ----------- #
+
+
+def get_yaml_config_file(env_id: str) -> Optional[str]:
+    """
+    Get the YAML configuration file path used to register a specific environment.
+
+    Args:
+        env_id (str): The environment ID (e.g., 'Eplus-5zone-hot-continuous-v1')
+
+    Returns:
+        Optional[str]: Path to the YAML configuration file, or None if not found
+    """
+    return _env_yaml_mapping.get(env_id, None)
+
+
+def print_env_yaml_mapping():
+    """
+    Print a table showing which YAML file was used to register each environment.
+    """
+    if not _env_yaml_mapping:
+        print("[SINERGYM] No environment-to-YAML mappings found.")
+        return
+
+    print("\n" + "="*100)
+    print("[SINERGYM] Environment to YAML Configuration Mapping")
+    print("="*100)
+    for env_id, yaml_path in sorted(_env_yaml_mapping.items()):
+        yaml_filename = os.path.basename(yaml_path)
+        print(f"  {env_id:<50} -> {yaml_filename}")
+    print("="*100 + "\n")
 
 
 # ----------------------------- Log level system ----------------------------- #
