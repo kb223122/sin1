@@ -53,8 +53,8 @@ include = ["sinergym/data/**"]
 [tool.poetry.dependencies] # Main group
 
 # Compatible Python versions
-python = "^3.12"
-gymnasium = ">=1.2.0"
+python = "^3.9"
+gymnasium = ">=1.0.0"
 numpy = ">=2.3.2"
 pandas = ">=2.3.1"
 eppy = ">=0.5.63"
@@ -62,6 +62,7 @@ tqdm = ">=4.67.1"
 xlsxwriter = ">=3.2.5"
 epw = ">=1.2.dev2"
 pyyaml = ">=6.0.2"
+optuna = ">=3.6.0"
 
 # Extra dependencies (optional)
 pytest = { version = ">=8.4.1", optional = true }

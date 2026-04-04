@@ -102,6 +102,33 @@ For a complete and up-to-date list of available environments, please refer to [o
 
 ## Installation
 
+## Weather Forecast Integration
+- Use `scripts/fetch_open_meteo_forecast.py` to fetch hourly forecasts (no API key).
+- Patch a baseline EPW with forecasted values using `scripts/merge_forecast_into_epw.py`.
+- Point your environment `env_config.pyyaml` at the new EPW via `weather_files`.
+
+Quick start:
+
+```bash
+# Fetch forecast for Tucson, AZ (adjust lat/lon, dates, timezone)
+python scripts/fetch_open_meteo_forecast.py --lat 32.2226 --lon -110.9747 --start 2026-01-20 --end 2026-01-27 --tz America/Phoenix --out scripts/output/tucson_forecast.csv
+
+# Patch baseline EPW with the forecasted period (set tz-offset if needed)
+python scripts/merge_forecast_into_epw.py --epw-in sinergym/pkg_data/weather/USA_AZ_Davis-Monthan.AFB.722745_TMY3.epw \
+  --epw-out sinergym/pkg_data/weather/USA_AZ_Davis_TUCSON_FORECAST.epw \
+  --forecast scripts/output/tucson_forecast.csv --tz-offset 0
+
+# Update your env config (example)
+# weather_files: sinergym/pkg_data/weather/USA_AZ_Davis_TUCSON_FORECAST.epw
+```
+
+Notes:
+- Radiation mapping uses Open-Meteo shortwave/diffuse/direct fields; values are approximated per-hour.
+- For multi-day horizons beyond the forecast, the baseline EPW values remain unchanged.
+
+## Learning Building Physics
+- See `docs/llm_building_physics.md` for a training roadmap and physics-informed modeling strategies.
+
 Read [INSTALL.md](https://github.com/ugr-sail/sinergym/blob/main/INSTALL.md) for detailed installation instructions.
 
 ## Usage example
