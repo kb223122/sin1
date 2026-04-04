@@ -171,11 +171,11 @@ class LoggerEvalCallback(EventCallback):
 
         # Terminal information when verbose is active
         if self.verbose >= 1:
+            timesteps = self.num_timesteps
+            mean_rew = evaluation_summary['mean_reward']
+            std_rew = evaluation_summary['std_reward']
             self.logger.info(
-                f'Evaluation num_timesteps={
-                    self.num_timesteps}, episode_reward={
-                    evaluation_summary['mean_reward']} +/- {
-                    evaluation_summary['std_reward']}'
+                f'Evaluation num_timesteps={timesteps}, episode_reward={mean_rew} +/- {std_rew}'
             )
 
         # ------------------------ Save best model if required ----------------------- #

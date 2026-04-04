@@ -33,35 +33,59 @@ logger = TerminalLogger().getLogger(name='COMMON', level=LOG_COMMON_LEVEL)
 
 def import_from_path(dotted_or_file_path: str):
     """
-    Import a class or function from a dotted module path or a file path.
+    Import a class or function from a module path or a file path.
+
+    Accepted formats:
+    - 'module:attr' (preferred)
+    - 'module.attr' (backward compatible)
+    - '/path/to/file.py:attr'
 
     Args:
-        dotted_or_file_path (str): Either 'module:attr' or '/path/to/file.py:attr'
+        dotted_or_file_path (str): Path string indicating where and what to import.
 
     Returns:
         The imported attribute (function, class, etc.)
     """
-    if ':' not in dotted_or_file_path:
-        raise ValueError(
-            f"Invalid format: '{dotted_or_file_path}'. Expected format: 'module:attr' or 'file.py:attr'"
-        )
+    # Preferred format with ':'
+    if ':' in dotted_or_file_path:
+        path_part, attr_name = dotted_or_file_path.split(':', 1)
 
-    path_part, attr_name = dotted_or_file_path.split(':', 1)
+        if os.path.isfile(path_part):  # It is a file path
+            module_name = os.path.splitext(os.path.basename(path_part))[0]
+            spec = importlib.util.spec_from_file_location(module_name, path_part)
+            if spec is None or spec.loader is None:
+                raise ImportError(f"Cannot load module from file: {path_part}")
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+        else:  # It is a module in dotted notation
+            module = importlib.import_module(path_part)
 
-    if os.path.isfile(path_part):  # It is a file path
-        module_name = os.path.splitext(os.path.basename(path_part))[0]
-        spec = importlib.util.spec_from_file_location(module_name, path_part)
-        if spec is None or spec.loader is None:
-            raise ImportError(f"Cannot load module from file: {path_part}")
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-    else:  # It is a module in dotted notation
-        module = importlib.import_module(path_part)
+        try:
+            return getattr(module, attr_name)
+        except AttributeError:
+            raise ImportError(
+                f"Module '{path_part}' does not have attribute '{attr_name}'"
+            )
 
+    # Backward-compatible dotted format 'module.attr'
+    if '.' in dotted_or_file_path:
+        module_path, attr_name = dotted_or_file_path.rsplit('.', 1)
+        module = importlib.import_module(module_path)
+        try:
+            return getattr(module, attr_name)
+        except AttributeError:
+            raise ImportError(
+                f"Module '{module_path}' does not have attribute '{attr_name}'"
+            )
+
+    # Fallback: plain class/function name, try default rewards module
     try:
-        return getattr(module, attr_name)
-    except AttributeError:
-        raise ImportError(f"Module '{path_part}' does not have attribute '{attr_name}'")
+        default_module = importlib.import_module('sinergym.utils.rewards')
+        return getattr(default_module, dotted_or_file_path)
+    except Exception:
+        raise ValueError(
+            f"Invalid format: '{dotted_or_file_path}'. Expected 'module:attr', 'module.attr', or 'file.py:attr' (also tries 'sinergym.utils.rewards:<name>')."
+        )
 
 
 # ---------------------------------------------------------------------------- #
@@ -184,9 +208,8 @@ def get_wrappers_info(
     wrappers_info = []
 
     if not path_to_save:
-        path_to_save = f'{
-            env.get_wrapper_attr(
-                name='workspace_path')}/wrappers_config.pyyaml'  # type: ignore
+        workspace_path = env.get_wrapper_attr(name='workspace_path')
+        path_to_save = f'{workspace_path}/wrappers_config.pyyaml'  # type: ignore
 
     # Traverse the wrappers and collect their metadata
     while isinstance(env, gym.Wrapper):
@@ -333,21 +356,17 @@ def export_schedulers_to_excel(
         for object_name, values in info.items():
             if isinstance(values, dict):
                 worksheet.write(current_row, col_offset, f'Name: {object_name}')
+                field_name = values.get("field_name", "N/A")
                 worksheet.write(
                     current_row,
                     col_offset + 1,
-                    f'Field: {
-                        values.get(
-                            "field_name",
-                            "N/A")}',
+                    f'Field: {field_name}',
                 )
+                table_name = values.get("table_name", "N/A")
                 worksheet.write(
                     current_row,
                     col_offset + 2,
-                    f'Table type: {
-                        values.get(
-                            "table_name",
-                            "N/A")}',
+                    f'Table type: {table_name}',
                 )
                 col_offset += 3  # Advance columns according to the written data
 
@@ -455,7 +474,11 @@ def parse_variables_settings(variables: Dict[str, Any]) -> Dict[str, Tuple[str, 
     output = {}
 
     for variable, specification in variables.items():
-        var_names = specification['variable_names']
+        # Accept both 'variable_names' (preferred) and legacy 'variable_name'
+        var_names = specification.get('variable_names', specification.get('variable_name'))
+        if var_names is None:
+            logger.error(f"Missing 'variable_names' in variable specification: {variable}")
+            raise KeyError('variable_names')
         keys = specification['keys']
 
         if isinstance(var_names, str) and isinstance(keys, str):
@@ -532,16 +555,27 @@ def convert_conf_to_env_parameters(conf: Dict[str, Any]) -> Dict[str, Dict[str, 
 
     # Check weathers configuration
     if len(weather_keys) != len(weather_files):
+        num_files = len(weather_files)
+        num_keys = len(weather_keys)
         logger.error(
             f'Weather files and id keys must have the same length: '
-            f'{
-                len(weather_files)} weather files != {
-                len(weather_keys)} keys'
+            f'{num_files} weather files != {num_keys} keys'
         )
         raise ValueError
 
     # Base ID and kwargs
     base_id = 'Eplus-' + conf['id_base']
+    # Validate required keys and provide clearer diagnostics
+    required_keys = ['building_file', 'action_space', 'time_variables', 'reward', 'reward_kwargs']
+    missing = [k for k in required_keys if k not in conf]
+    if missing:
+        logger.error(f"Missing required configuration keys: {missing}. Provided keys: {list(conf.keys())}")
+        raise KeyError(f"Missing required configuration keys: {missing}")
+
+    # Provide a safe default for optional max_ep_store if absent
+    if 'max_ep_store' not in conf:
+        logger.warning("'max_ep_store' not found in configuration. Will use environment default.")
+
     base_kwargs = {
         'building_file': conf['building_file'],
         'action_space': eval(conf['action_space']),
@@ -553,7 +587,7 @@ def convert_conf_to_env_parameters(conf: Dict[str, Any]) -> Dict[str, Dict[str, 
         'initial_context': conf.get('initial_context'),
         'reward': import_from_path(conf['reward']),
         'reward_kwargs': conf['reward_kwargs'],
-        'max_ep_store': conf['max_ep_store'],
+    # Do not pass 'max_ep_store' explicitly to maintain compatibility across versions
         'building_config': conf.get('building_config'),
     }
 

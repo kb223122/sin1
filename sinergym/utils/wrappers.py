@@ -685,6 +685,165 @@ class WeatherForecastingWrapper(gym.Wrapper):
 
 
 @store_init_metadata
+class StepAlignedWeatherForecastingWrapper(gym.Wrapper):
+
+    logger = TerminalLogger().getLogger(
+        name='WRAPPER StepAlignedWeatherForecastingWrapper',
+        level=LOG_WRAPPERS_LEVEL,
+    )
+
+    def __init__(
+        self,
+        env: Env,
+        n: int = 10,
+        delta: int = 1,
+        columns: List[str] = (
+            'Dry Bulb Temperature',
+            'Relative Humidity',
+        ),
+    ):
+        """Adds step-aligned weather forecast based on EnergyPlus-like interpolation.
+
+        This wrapper upsamples the hourly EPW weather data to the simulation
+        timestep (e.g. 15 min) using time-based linear interpolation, then for
+        each environment step k exposes the next n step values from that
+        interpolated series.
+
+        The intention is that these forecasts match (up to small numerical
+        differences) the outdoor conditions that EnergyPlus will actually use
+        at those future timesteps.
+        """
+
+        super().__init__(env)
+        self.n = n
+        self.delta = delta
+        self.columns = list(columns)
+        self.forecast_data: Optional[pd.DataFrame] = None
+
+        # Extend observation variables and space following the same pattern as
+        # WeatherForecastingWrapper
+        base_obs_vars = self.get_wrapper_attr('observation_variables')
+        new_obs_vars: List[str] = []
+        for i in range(1, n + 1):
+            for col in self.columns:
+                new_obs_vars.append(f'forecast_{i}_{col}')
+        self.observation_variables = base_obs_vars + new_obs_vars
+
+        base_space = self.get_wrapper_attr('observation_space')
+        new_shape = (base_space.shape[0] + len(self.columns) * n,)
+        self.observation_space = gym.spaces.Box(
+            low=base_space.low[0],
+            high=base_space.high[0],
+            shape=new_shape,
+            dtype=base_space.dtype,
+        )
+
+        # Cache runperiod / timestep info from the underlying environment
+        self._runperiod = self.get_wrapper_attr('runperiod')
+        self._step_size = float(self.get_wrapper_attr('step_size'))  # seconds
+        self._timestep_per_episode = int(
+            self.get_wrapper_attr('timestep_per_episode')
+        )
+
+        self.logger.info('Step-aligned weather forecast wrapper initialized.')
+
+    def _build_step_weather(self) -> None:
+        """Build per-step weather table matching EnergyPlus-like interpolation."""
+
+        data = Weather()
+        data.read(self.get_wrapper_attr('weather_path'))
+
+        if data.dataframe is None:
+            self.logger.error('No weather data found. Please check the weather path.')
+            raise ValueError('Weather data not available for forecast.')
+
+        df = data.dataframe
+
+        # Build an hourly datetime index from EPW Month/Day/Hour and a
+        # reference year consistent with the environment.
+        months = df['Month'].to_numpy()
+        days = df['Day'].to_numpy()
+        hours = df['Hour'].to_numpy()
+        year = self._runperiod.get('start_year', YEAR)
+
+        # EPW hours are 1-24, shift to 0-23 for pandas datetime
+        hourly_index = pd.to_datetime(
+            {
+                'year': year,
+                'month': months,
+                'day': days,
+                'hour': np.clip(hours - 1, 0, 23),
+            }
+        )
+
+        df_hourly = df[self.columns].copy()
+        df_hourly.index = hourly_index
+
+        # Resample to the simulation step size using time-based interpolation
+        step_minutes = int(self._step_size // 60)
+        freq = f'{step_minutes}T'
+        df_step = df_hourly.resample(freq).interpolate('time')
+
+        # Build timestamps for all timesteps in the episode plus forecast horizon
+        start_dt = datetime(
+            self._runperiod['start_year'],
+            self._runperiod['start_month'],
+            self._runperiod['start_day'],
+        )
+        n_extra = self.n * self.delta + 2
+        times = [
+            start_dt + pd.Timedelta(seconds=self._step_size * k)
+            for k in range(self._timestep_per_episode + n_extra)
+        ]
+
+        # Select those timestamps from the resampled series
+        df_step = df_step.reindex(times, method='nearest')
+        self.forecast_data = df_step.reset_index(drop=True)
+
+    def reset(
+        self, seed: Optional[int] = None, options: Optional[Dict[str, Any]] = None
+    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        # Build or rebuild per-step forecast table for the new episode
+        self._build_step_weather()
+
+        obs, info = self.env.reset(seed=seed, options=options)
+        obs = self.observation(obs, info)
+        return obs, info
+
+    def step(
+        self, action: np.ndarray
+    ) -> Tuple[np.ndarray, SupportsFloat, bool, bool, Dict[str, Any]]:
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        obs = self.observation(obs, info)
+        return obs, reward, terminated, truncated, info
+
+    def observation(self, obs: np.ndarray, info: Dict[str, Any]) -> np.ndarray:
+        if self.forecast_data is None or 'timestep' not in info:
+            return obs
+
+        current_step = int(info['timestep'])
+
+        # Future indices in "step space"
+        start = current_step + self.delta
+        end = current_step + self.delta * self.n
+        idxs = np.arange(start, end + 1, self.delta)
+        idxs = idxs[idxs < len(self.forecast_data)]
+
+        if len(idxs) == 0:
+            idxs = np.array([current_step])
+
+        selected = self.forecast_data.iloc[idxs][self.columns].values
+
+        # If we don't have enough rows, repeat the last one
+        if len(selected) < self.n:
+            needed = self.n - len(selected)
+            last_row = selected[-1:]
+            selected = np.vstack([selected, np.repeat(last_row, needed, axis=0)])
+
+        return np.concatenate((obs, selected.ravel()))
+
+
+@store_init_metadata
 class EnergyCostWrapper(gym.Wrapper):
     logger = TerminalLogger().getLogger(
         name='WRAPPER EnergyCostWrapper', level=LOG_WRAPPERS_LEVEL
@@ -1891,11 +2050,11 @@ try:
                 raise ValueError
 
             # Define wandb run name if is not specified
+            env_name = self.env.get_wrapper_attr('name')
+            wandb_id = wandb.util.generate_id()
             run_name = (
                 run_name
-                or f'{
-                self.env.get_wrapper_attr('name')}_{
-                wandb.util.generate_id()}'
+                or f'{env_name}_{wandb_id}'
             )
 
             # Init WandB session
@@ -1959,9 +2118,9 @@ try:
 
             # Log step information if frequency is correct
             if self.global_timestep % self.dump_frequency == 0:
+                timestep = self.global_timestep
                 self.logger.debug(
-                    f'Dump frequency reached ({
-                        self.global_timestep}), logging to WandB.'
+                    f'Dump frequency reached ({timestep}), logging to WandB.'
                 )
                 self.wandb_log()
 
@@ -1990,9 +2149,9 @@ try:
                 ):
                     self.wandb_log_summary()
                 else:
+                    percentage = self.episode_percentage * 100
                     self.logger.warning(
-                        f'Episode ignored for log summary in WandB Platform, it has not be completed in at least {
-                            self.episode_percentage * 100}%.'
+                        f'Episode ignored for log summary in WandB Platform, it has not be completed in at least {percentage}%.'
                     )
                 self.logger.info(
                     'End of episode detected, dumping summary metrics in WandB Platform.'
@@ -2339,9 +2498,9 @@ class VariabilityContextWrapper(gym.Wrapper):
             # Update context
             self.get_wrapper_attr('update_context')(self.next_context_values)
             self.current_context = self.next_context_values
+            context_vals = self.next_context_values
             self.logger.info(
-                f'Context updated with values: {
-                    self.next_context_values}'
+                f'Context updated with values: {context_vals}'
             )
             # Calculate next update
             self.next_context_values, self.next_step_update = (

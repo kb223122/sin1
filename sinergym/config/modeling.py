@@ -204,7 +204,8 @@ class ModelJSON(object):
         }
 
         self.logger.info('Adapting weather to building model.')
-        self.logger.debug(f'Weather path: {self._weather_path.split('/')[-1]}')
+        weather_file = self._weather_path.split('/')[-1]
+        self.logger.debug(f'Weather path: {weather_file}')
 
     def adapt_building_to_variables(self) -> None:
         """Replaces the default Output:Variable entries in the building model with custom variables.
@@ -263,9 +264,9 @@ class ModelJSON(object):
                 'number_of_timesteps_per_hour'
             ] = self.building_config['timesteps_per_hour']
 
+            timesteps_val = self.building_config['timesteps_per_hour']
             self.logger.debug(
-                f'Building configuration: timesteps_per_hour set up to {
-                    self.building_config['timesteps_per_hour']}'
+                f'Building configuration: timesteps_per_hour set up to {timesteps_val}'
             )
 
         # Runperiod datetimes --> Tuple(start_day, start_month, start_year,
@@ -290,15 +291,15 @@ class ModelJSON(object):
             self.timestep_per_episode = int(self.episode_length / self.step_size)
 
             # Log updated values in terminal
+            runperiod_val = self.runperiod
             self.logger.info(
-                f'Building configuration: runperiod updated to {
-                    self.runperiod}'
+                f'Building configuration: runperiod updated to {runperiod_val}'
             )
             self.logger.info(f'Updated episode length (seconds): {self.episode_length}')
             self.logger.info(f'Updated timestep size (seconds): {self.step_size}')
+            timesteps_val = self.timestep_per_episode
             self.logger.info(
-                f'Updated timesteps per episode: {
-                    self.timestep_per_episode}'
+                f'Updated timesteps per episode: {timesteps_val}'
             )
 
     def save_building_model(self) -> str:
@@ -358,7 +359,8 @@ class ModelJSON(object):
         self.ddy_model = IDF(self._ddy_path)
         self.weather_data.read(self._weather_path)
 
-        self.logger.info(f'Weather file {self._weather_path.split('/')[-1]} used.')
+        weather_filename = self._weather_path.split('/')[-1]
+        self.logger.info(f'Weather file {weather_filename} used.')
 
     def apply_weather_variability(
         self,
@@ -711,18 +713,17 @@ class ModelJSON(object):
                 # Timesteps
                 if config_key == 'timesteps_per_hour':
                     if self.building_config[config_key] < 1:
+                        timestep_val = self.building_config[config_key]
                         self.logger.critical(
-                            f'Building configuration: timestep_per_hour must be a positive int value, the value specified is {
-                                self.building_config[config_key]}'
+                            f'Building configuration: timestep_per_hour must be a positive int value, the value specified is {timestep_val}'
                         )
                         raise ValueError
                 # Runperiod
                 elif config_key == 'runperiod':
                     if not isinstance(self.building_config[config_key], (tuple, list)):
+                        config_type = type(self.building_config[config_key])
                         self.logger.critical(
-                            f'Building configuration: Runperiod specified in extra configuration must be a tuple or list (type detected {
-                                type(
-                                    self.building_config[config_key])})'
+                            f'Building configuration: Runperiod specified in extra configuration must be a tuple or list (type detected {config_type})'
                         )
                         raise TypeError
                     if len(self.building_config[config_key]) != 6:

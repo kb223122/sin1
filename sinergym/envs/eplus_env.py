@@ -376,19 +376,19 @@ class EplusEnv(gym.Env):
 
         # Check action is correct for environment
         if not self._action_space.contains(action):
-            self.logger.error(
+            self.logger.critical(
                 f'Invalid action: {action} (check type is np.ndarray with np.float32 values too)'
             )
+            action_space = self._action_space
             raise ValueError(
-                f'Action {action} is not valid for {
-                    self._action_space} (check type is np.ndarray with np.float32 values too)'
+                f'Action {action} is not valid for {action_space} (check type is np.ndarray with np.float32 values too)'
             )
 
         # check for simulation errors
         if self.energyplus_simulator.failed():
+            exit_code = self.energyplus_simulator.sim_results['exit_code']
             self.logger.critical(
-                f'EnergyPlus failed with exit code {
-                    self.energyplus_simulator.sim_results['exit_code']}'
+                f'EnergyPlus failed with exit code {exit_code}'
             )
             raise RuntimeError
 
@@ -475,9 +475,9 @@ class EplusEnv(gym.Env):
         """
         # Check context_values consistency with context variables
         if len(context_values) != len(self.context):
+            context = self.context
             self.logger.warning(
-                f'Context values must have the same length than context variables specified, and values must be in the same order. The context space is {
-                    self.context}, but values {context_values} were specified.'
+                f'Context values must have the same length than context variables specified, and values must be in the same order. The context space is {context}, but values {context_values} were specified.'
             )
 
         try:
@@ -504,22 +504,20 @@ class EplusEnv(gym.Env):
         # OBSERVATION
         assert self._observation_space.shape
         if len(self.observation_variables) != self._observation_space.shape[0]:
+            obs_space_size = self._observation_space.shape[0]
+            obs_vars_size = len(self.observation_variables)
             self.logger.error(
-                f'Observation space ({
-                    self._observation_space.shape[0]} variables) has not the same length than specified variable names ({
-                    len(
-                        self.observation_variables)}).'
+                f'Observation space ({obs_space_size} variables) has not the same length than specified variable names ({obs_vars_size}).'
             )
             raise ValueError
 
         # ACTION
         assert self._action_space.shape
         if len(self.action_variables) != self._action_space.shape[0]:
+            act_space_size = self._action_space.shape[0]
+            act_vars_size = len(self.action_variables)
             self.logger.error(
-                f'Action space defined in environment( with {
-                    self._action_space.shape[0]} variables) has not the same length than specified action variable names ({
-                    len(
-                        self.action_variables)} variables).'
+                f'Action space defined in environment( with {act_space_size} variables) has not the same length than specified action variable names ({act_vars_size} variables).'
             )
             raise ValueError
 

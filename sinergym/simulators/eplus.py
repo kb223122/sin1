@@ -93,6 +93,8 @@ class EnergyPlus(object):
         self.system_ready = False
         self.simulation_complete = False
         self.progress_bar = None
+        # Track last percent to avoid redundant progress bar refresh spam
+        self.last_progress_percent: int = -1
         self.episode = None
 
         # ----------------------------------- Paths ---------------------------------- #
@@ -246,26 +248,36 @@ class EnergyPlus(object):
     # ------------------------------- Progress Bar ------------------------------- #
 
     def _progress_update(self, percent: int) -> None:
-        if self.system_ready:
+        """Update simulation progress bar.
 
-            if not self.progress_bar:
-                # Progress bar for simulation
-                self.progress_bar = tqdm(
-                    total=100,
-                    desc=f'Simulation Progress [Episode {self.episode}]',
-                    ncols=100,
-                    unit='%',
-                    leave=True,
-                    position=0,
-                    ascii=False,
-                    dynamic_ncols=True,
-                    file=sys.stdout,
-                )
+        Avoids flooding the terminal by only refreshing when percent changes.
+        """
+        if not self.system_ready:
+            return
 
-            percent = percent + 1 if percent < 100 else percent
-            self.progress_bar.update(percent - self.progress_bar.n)
-            self.progress_bar.set_postfix_str(f'{percent}% completed')
-            self.progress_bar.refresh()
+        # Only act when percent advances
+        if percent <= self.last_progress_percent:
+            return
+        self.last_progress_percent = percent
+
+        if not self.progress_bar:
+            # Progress bar for simulation
+            self.progress_bar = tqdm(
+                total=100,
+                desc=f'Simulation Progress [Episode {self.episode}]',
+                ncols=100,
+                unit='%',
+                leave=True,
+                position=0,
+                ascii=False,
+                dynamic_ncols=True,
+                file=sys.stdout,
+            )
+
+        percent = percent + 1 if percent < 100 else percent
+        self.progress_bar.update(percent - self.progress_bar.n)
+        self.progress_bar.set_postfix_str(f'{percent}% completed')
+        # No explicit refresh; tqdm update already handles redraw, reducing flicker
 
     # ------------------------------ Initialization ------------------------------ #
 

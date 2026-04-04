@@ -177,6 +177,271 @@ class LinearReward(BaseReward):
         reward = energy_term + comfort_term
         return reward, energy_term, comfort_term
 
+# Add this to sinergym/reward_function.py
+
+class MyReward(BaseReward):
+    """
+    Custom reward function for Sinergym:
+    - Penalizes temperature violations per zone (seasonal comfort bands)
+    - Penalizes total HVAC electricity demand rate (Watt)
+    - Occupancy-aware weighting (rho)
+    - All normalization is [0, 1]
+    """
+
+    def __init__(self,
+                 summer_months=(6, 7, 8, 9),
+                 summer_band=(23.0, 26.0),
+                 winter_band=(20.0, 23.5),
+                 temp_violation_min=0.0,
+                 temp_violation_max=5.0,
+                 hvac_demand_min=0.0,
+                 hvac_demand_max=11000.0,
+                 zone_names=None,
+                 temperature_variables: Optional[List[str]] = None,
+                 occupancy_variables: Optional[List[str]] = None,
+                 rho_occupied: float = 1.1,
+                 rho_unoccupied: float = 0.1):
+        # Zone names as per your environment config
+        if zone_names is None:
+            # Default typical 5-zone naming used in 5ZoneAutoDXVAV zonal configs
+            zone_names = ['SPACE1-1', 'SPACE2-1', 'SPACE3-1', 'SPACE4-1', 'SPACE5-1']
+        self.zone_names = zone_names
+        # Explicit variable names for temperature and occupancy signals
+        if temperature_variables is None:
+            temperature_variables = [
+                f"air_temperature_space{idx + 1}" for idx in range(len(self.zone_names))
+            ]
+        if occupancy_variables is None:
+            occupancy_variables = [
+                f"air_occ_space{idx + 1}" for idx in range(len(self.zone_names))
+            ]
+        if len(temperature_variables) != len(occupancy_variables):
+            raise ValueError("temperature_variables and occupancy_variables must have same length")
+        self.temperature_variables = list(temperature_variables)
+        self.occupancy_variables = list(occupancy_variables)
+        self.summer_months = set(summer_months)
+        # Ensure bands are tuples (YAML passes them as lists)
+        self.summer_band = tuple(summer_band) if isinstance(summer_band, list) else summer_band
+        self.winter_band = tuple(winter_band) if isinstance(winter_band, list) else winter_band
+        self.temp_violation_min = float(temp_violation_min)
+        self.temp_violation_max = float(temp_violation_max)
+        self.hvac_demand_min = float(hvac_demand_min)
+        self.hvac_demand_max = float(hvac_demand_max)
+        self.rho_occupied = float(rho_occupied)
+        self.rho_unoccupied = float(rho_unoccupied)
+
+    def _get_comfort_band(self, month):
+        if int(month) in self.summer_months:
+            return self.summer_band
+        else:
+            return self.winter_band
+
+    def _normalize(self, value, min_val, max_val):
+        norm = (value - min_val) / (max_val - min_val)
+        return min(max(norm, 0.0), 1.0)
+
+    def __call__(self, observation, reward_info=None):
+        # Get current month for comfort band
+        month = observation.get('month', 1)
+        Tmin, Tmax = self._get_comfort_band(month)
+
+        total_reward = 0.0
+        zone_terms = []
+        rho_terms = []
+        temp_norm_terms = []
+        temp_violation_terms = []
+
+        temp_keys = list(self.temperature_variables)
+        occ_keys = list(self.occupancy_variables)
+
+        # Zone-wise temperature violation and occupancy
+        for temp_key, occ_key in zip(temp_keys, occ_keys):
+
+            T = observation.get(temp_key, Tmin)  # fallback to Tmin if missing
+            occupancy = observation.get(occ_key, 0)
+
+            # Temperature violation
+            temp_violation = max(Tmin - T, 0, T - Tmax)
+            norm_temp_violation = self._normalize(temp_violation, self.temp_violation_min, self.temp_violation_max)
+
+            # Occupancy weighting
+            rho = self.rho_occupied if occupancy and float(occupancy) > 0 else self.rho_unoccupied
+            temp_violation_terms.append(temp_violation)
+            temp_norm_terms.append(norm_temp_violation)
+            rho_terms.append(rho)
+            zone_terms.append(rho * norm_temp_violation)
+            total_reward -= rho * norm_temp_violation
+
+        # HVAC electricity demand rate (cumulative for all zones)
+        # Note: observation key name is case sensitive in Sinergym
+        hvac_demand = observation.get('HVAC_electricity_demand_rate',
+                                      observation.get('hvac_electricity_demand_rate', self.hvac_demand_min))
+        norm_hvac_demand = self._normalize(hvac_demand, self.hvac_demand_min, self.hvac_demand_max)
+
+        total_reward -= norm_hvac_demand
+    
+    
+    
+        # Calculate compatibility terms for wrappers (they expect these keys)
+        comfort_penalty_sum = sum(zone_terms)  # Raw comfort penalty (without negative sign)
+        comfort_term = -comfort_penalty_sum     # Comfort term for reward
+        energy_term = -norm_hvac_demand         # Energy term for reward
+        
+        reward_terms = {
+            # Required keys for LoggerWrapper/WandBLogger compatibility
+            'comfort_term': comfort_term,
+            'energy_term': energy_term,
+            'comfort_penalty': -comfort_penalty_sum,  # Negative of sum
+            'energy_penalty': -hvac_demand,           # Raw HVAC demand (negative)
+            'total_temperature_violation': sum(temp_violation_terms),
+            'total_power_demand': hvac_demand,
+            
+            # Your custom scalar metrics (safe for WandB logging)
+            'comfort_component': comfort_term,
+            'hvac_norm': norm_hvac_demand,
+            'hvac_demand_raw': hvac_demand,
+            'month': int(month),
+            'day': int(observation.get('day_of_month', 1)),
+            'hour': int(observation.get('hour', 0)),
+            'total_electricity_HVAC': float(observation.get('total_electricity_HVAC', 0.0)),
+            
+            # Zone-wise statistics (scalars derived from lists)
+            'mean_zone_penalty': sum(zone_terms) / len(zone_terms) if zone_terms else 0.0,
+            'max_zone_penalty': max(zone_terms) if zone_terms else 0.0,
+            'mean_temp_violation': sum(temp_violation_terms) / len(temp_violation_terms) if temp_violation_terms else 0.0,
+            'max_temp_violation': max(temp_violation_terms) if temp_violation_terms else 0.0,
+            'mean_rho': sum(rho_terms) / len(rho_terms) if rho_terms else 0.0,
+            'num_occupied_zones': sum(1 for r in rho_terms if r == self.rho_occupied),
+        }
+
+        return total_reward, reward_terms
+
+
+class OccupancyAwareLinearReward(BaseReward):
+
+    def __init__(
+        self,
+        temperature_variables: List[str],
+        heating_setpoint_variables: List[str],
+        cooling_setpoint_variables: List[str],
+        occupancy_variables: List[str],
+        energy_variable: str,
+        temperature_violation_range: Tuple[float, float] = (0.0, 5.0),
+        power_range: Tuple[float, float] = (0.0, 11000.0),
+        occupied_weight: float = 4.0,
+        unoccupied_weight: float = 0.1,
+        comfort_weight: float = 1.0,
+        energy_weight: float = 1.0,
+    ):
+        """Reward combining per-zone comfort penalties with HVAC power usage.
+
+        Args:
+            temperature_variables (List[str]): Zone air temperature variable names.
+            heating_setpoint_variables (List[str]): Zone heating setpoint variable names.
+            cooling_setpoint_variables (List[str]): Zone cooling setpoint variable names.
+            occupancy_variables (List[str]): Zone occupancy variable names.
+            energy_variable (str): Name of the HVAC power variable.
+            temperature_violation_range (Tuple[float, float], optional): Min/max expected temperature violation used for normalization. Defaults to (0.0, 5.0).
+            power_range (Tuple[float, float], optional): Min/max expected HVAC power used for normalization. Defaults to (0.0, 11000.0).
+            occupied_weight (float, optional): Comfort weight multiplier when the zone is occupied. Defaults to 4.0.
+            unoccupied_weight (float, optional): Comfort weight multiplier when the zone is empty. Defaults to 0.1.
+            comfort_weight (float, optional): Weight applied to the aggregated comfort penalty. Defaults to 1.0.
+            energy_weight (float, optional): Weight applied to the energy penalty. Defaults to 1.0.
+        """
+
+        super().__init__()
+
+        sizes = {
+            len(temperature_variables),
+            len(heating_setpoint_variables),
+            len(cooling_setpoint_variables),
+            len(occupancy_variables),
+        }
+        if len(sizes) != 1:
+            self.logger.error('Zone-related variable lists must have the same length.')
+            raise ValueError
+        if energy_weight < 0 or comfort_weight < 0:
+            self.logger.error('comfort_weight and energy_weight must be non-negative.')
+            raise ValueError
+        if power_range[0] >= power_range[1]:
+            self.logger.error('power_range must define a valid min and max.')
+            raise ValueError
+        if temperature_violation_range[0] >= temperature_violation_range[1]:
+            self.logger.error(
+                'temperature_violation_range must define a valid min and max.'
+            )
+            raise ValueError
+
+        self.temp_names = temperature_variables
+        self.htg_names = heating_setpoint_variables
+        self.clg_names = cooling_setpoint_variables
+        self.occ_names = occupancy_variables
+        self.energy_name = energy_variable
+
+        self.temp_violation_min, self.temp_violation_max = temperature_violation_range
+        self.power_min, self.power_max = power_range
+        self.occupied_weight = occupied_weight
+        self.unoccupied_weight = unoccupied_weight
+        self.comfort_weight = comfort_weight
+        self.energy_weight = energy_weight
+
+        self.logger.info('Occupancy-aware reward function initialized.')
+
+    def __call__(self, obs_dict: Dict[str, Any]) -> Tuple[float, Dict[str, Any]]:
+        zone_penalties: List[float] = []
+
+        for temp_name, htg_name, clg_name, occ_name in zip(
+            self.temp_names, self.htg_names, self.clg_names, self.occ_names
+        ):
+            temperature = obs_dict[temp_name]
+            heating_sp = obs_dict[htg_name]
+            cooling_sp = obs_dict[clg_name]
+            occupancy = obs_dict[occ_name]
+
+            violation = 0.0
+            if temperature < heating_sp:
+                violation = heating_sp - temperature
+            elif temperature > cooling_sp:
+                violation = temperature - cooling_sp
+
+            violation_norm = self._min_max_norm(
+                violation, self.temp_violation_min, self.temp_violation_max
+            )
+            weight = (
+                self.occupied_weight if occupancy > 0 else self.unoccupied_weight
+            )
+            zone_penalties.append(weight * violation_norm)
+
+        comfort_component = (
+            sum(zone_penalties) / len(zone_penalties) if zone_penalties else 0.0
+        )
+
+        power = obs_dict[self.energy_name]
+        energy_component = self._min_max_norm(power, self.power_min, self.power_max)
+
+        total_penalty = (
+            self.energy_weight * energy_component
+            + self.comfort_weight * comfort_component
+        )
+        reward = -total_penalty
+
+        reward_terms = {
+            'energy_norm': energy_component,
+            'comfort_norm': comfort_component,
+            'zone_penalties': zone_penalties,
+            'power_raw': power,
+            'total_penalty': total_penalty,
+        }
+
+        return reward, reward_terms
+
+    @staticmethod
+    def _min_max_norm(value: float, min_value: float, max_value: float) -> float:
+        if max_value == min_value:
+            return 0.0
+        normalized = (value - min_value) / (max_value - min_value)
+        return min(max(normalized, 0.0), 1.0)
+
 
 class EnergyCostLinearReward(LinearReward):
 
