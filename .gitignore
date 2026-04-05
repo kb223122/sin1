@@ -59,3 +59,6 @@ artifacts/
 
 #ruff
 .ruff_cache/
+
+# Local experiments, training outputs, and eval artifacts (large; not for git)
+scripts/
